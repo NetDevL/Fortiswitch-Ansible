@@ -24,7 +24,6 @@
           description: "IOT"
 
     - name: Configure management interface
-      fortiswitch_system_interface:
       fortinet.fortiswitch.fortiswitch_system_interface:
         system_interface:
           name: vlan_2
