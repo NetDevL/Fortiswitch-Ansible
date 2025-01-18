@@ -12,18 +12,11 @@ on:
 jobs:
 
   build:
-    name: Ansible Lint # Naming the build is important to use it as a status check
-    runs-on: ubuntu-24.04
+    runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
-      - name: Run ansible-lint
-        uses: ansible/ansible-lint@main
-        # optional (see below):
-        with:
-          args: ""
-          setup_python: "true"
-          working_directory: ""
-          requirements_file: ""
+      - uses: actions/checkout@v2
+      - name: Run Fortiswitch playbook
+        run: ansible-lint play-fortiswitch.yml
 
 
 #  deploy-ota:
