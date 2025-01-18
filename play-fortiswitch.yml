@@ -48,9 +48,9 @@
           state: "present"
           router_static:
               comment: "Management gateway"
-              device: "vlan-2"
+              device: "vlan_2"
               gateway: "{{ dns_secondary }}"
-              dst: "0.0.0.0/0"
+              dst: "0.0.0.0 0.0.0.0"
               gw_l2_switch: "enable"
               seq_num: "1"
               status: "enable"
