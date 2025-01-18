@@ -24,5 +24,6 @@ jobs:
 #    needs: deploy-ota
 
     steps:
+      - uses: actions/checkout@v2
       - name: Run Fortiswitch playbook
         run: ansible-playbook -i /home/pi/vars/ftnt_lab/hosts-prod play-fortiswitch.yml
