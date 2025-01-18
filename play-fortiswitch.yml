@@ -1,33 +1,31 @@
 ---
-- hosts: fortiswitches
+- name: Configure FortiSwitch
+  hosts: fortiswitches
   connection: httpapi
-  collections:
-    - fortinet.fortiswitch
   gather_facts: 'no'
   vars:
-    ansible_httpapi_use_ssl: yes
-    ansible_httpapi_validate_certs: no
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
     ansible_httpapi_port: 443
 
   tasks:
-
-    - name: Configure management.
+    - name: Configure management VLAN
       fortinet.fortiswitch.fortiswitch_switch_vlan:
-          state: "present"
-          switch_vlan:
-            id: "2"
-            description: "Management"
+        state: "present"
+        switch_vlan:
+          id: "2"
+          description: "Management"
 
-    - name: Configure IOT.
+    - name: Configure IOT VLAN
       fortinet.fortiswitch.fortiswitch_switch_vlan:
-          state: "present"
-          switch_vlan:
-            id: "3"
-            description: "IOT"     
+        state: "present"
+        switch_vlan:
+          id: "3"
+          description: "IOT"
 
-    - name: Configure management interface.
+    - name: Configure management interface
       fortiswitch_system_interface:
-        state: present
+      fortinet.fortiswitch.fortiswitch_system_interface:
         system_interface:
           name: vlan_2
           vdom: root
@@ -43,19 +41,19 @@
           alias: "Management"
           defaultgw: "enable"
 
-    - name: IPv4 static route for Internet access.
+    - name: IPv4 static route for Internet access
       fortinet.fortiswitch.fortiswitch_router_static:
-          state: "present"
-          router_static:
-              comment: "Management gateway"
-              device: "vlan_2"
-              gateway: "{{ dns_secondary }}"
-              dst: "0.0.0.0 0.0.0.0"
-              gw_l2_switch: "enable"
-              seq_num: "1"
-              status: "enable"
+        state: "present"
+        router_static:
+          comment: "Management gateway"
+          device: "vlan_2"
+          gateway: "{{ dns_secondary }}"
+          dst: "0.0.0.0 0.0.0.0"
+          gw_l2_switch: "enable"
+          seq_num: "1"
+          status: "enable"
 
-    - name: SNMP system info configuration.
+    - name: SNMP system info configuration
       fortinet.fortiswitch.fortiswitch_system_snmp_sysinfo:
         system_snmp_sysinfo:
           contact_info: "{{ snmp_contact }}"
@@ -63,7 +61,7 @@
           location: "{{ location }}"
           status: "enable"
 
-    - name: Configure global range attributes.
+    - name: Configure global range attributes
       fortinet.fortiswitch.fortiswitch_system_global:
         system_global:
           hostname: "{{ inventory_hostname }}"
@@ -78,7 +76,7 @@
           primary: "{{ dns_primary }}"
           secondary: "{{ dns_secondary }}"
 
-    - name: Ntp system info configuration
+    - name: NTP system info configuration
       fortinet.fortiswitch.fortiswitch_system_ntp:
         system_ntp:
           log_time_adjustments: "enable"
@@ -92,16 +90,16 @@
           source_ip: "{{ ansible_host }}"
           syncinterval: "20"
 
-    - name: SNMP user configuration.
+    - name: SNMP user configuration
       fortinet.fortiswitch.fortiswitch_system_snmp_user:
-          state: "present"
-          system_snmp_user:
-              auth_proto: "sha256"
-              auth_pwd: "{{ snmp_auth_password }}"
-              name: "{{ snmp_user }}"
-              notify_hosts: " {{ snmp_host }}"
-              priv_proto: "aes256"
-              priv_pwd: "{{ snmp_auth_password }}"
-              queries: "enable"
-              query_port: "161"
-              security_level: "auth-priv"
+        state: "present"
+        system_snmp_user:
+          auth_proto: "sha256"
+          auth_pwd: "{{ snmp_auth_password }}"
+          name: "{{ snmp_user }}"
+          notify_hosts: "{{ snmp_host }}"
+          priv_proto: "aes256"
+          priv_pwd: "{{ snmp_auth_password }}"
+          queries: "enable"
+          query_port: "161"
+          security_level: "auth-priv"
