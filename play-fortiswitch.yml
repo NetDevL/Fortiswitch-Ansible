@@ -25,11 +25,11 @@
             id: "3"
             description: "IOT"     
 
-    - name: Only https allow access to the device.
+    - name: Configure management interface.
       fortiswitch_system_interface:
         state: present
         system_interface:
-          name: internal
+          name: vlan_2
           vdom: root
           allowaccess:
             - https
@@ -37,6 +37,10 @@
             - ssh
             - ping
             - snmp
+          ip: "{{ ansible_host }} 255.255.255.0"
+          vlanid: 2
+          interface: "internal"
+          alias: "Management"
 
     - name: SNMP system info configuration.
       fortinet.fortiswitch.fortiswitch_system_snmp_sysinfo:
