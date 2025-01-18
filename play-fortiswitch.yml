@@ -2,7 +2,7 @@
 - name: Configure FortiSwitch
   hosts: fortiswitches
   connection: httpapi
-  gather_facts: 'no'
+  gather_facts: 'false'
   vars:
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
