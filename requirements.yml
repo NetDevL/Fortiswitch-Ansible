@@ -1,6 +1,4 @@
 ---
 collections:
   - name: fortinet.fortiswitch
-    source: galaxy.ansible.com
   - name: ansible.netcommon
-    source: galaxy.ansible.com
