@@ -21,7 +21,6 @@ jobs:
         # optional (see below):
         with:
           args: ""
-          setup_python: "true"
           working_directory: ""
           requirements_file: ""
 
