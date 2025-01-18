@@ -1,0 +1,28 @@
+# A workflow to manually install a new runner. Project assumes 1 runner only.
+
+name: Install Prerequisites
+
+# Only to be ran manually to configure new runners
+on:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch: 
+
+jobs:
+
+  pre-requisites:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Install runner prerequisites
+      - name: Install pipx
+        run: apt install pipx -y
+     
+      - name: Install ansible
+        run: apt install ansible -y
+
+      - name: Install ansible galaxy fortinet fortiswitch
+        run: ansible-galaxy collection install fortinet.fortiswitch
+
