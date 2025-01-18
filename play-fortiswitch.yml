@@ -25,6 +25,7 @@
 
     - name: Configure management interface
       fortinet.fortiswitch.fortiswitch_system_interface:
+        state: "present"
         system_interface:
           name: vlan_2
           vdom: root
@@ -54,6 +55,7 @@
 
     - name: SNMP system info configuration
       fortinet.fortiswitch.fortiswitch_system_snmp_sysinfo:
+        state: "present"
         system_snmp_sysinfo:
           contact_info: "{{ snmp_contact }}"
           description: "{{ inventory_hostname }}"
@@ -62,11 +64,13 @@
 
     - name: Configure global range attributes
       fortinet.fortiswitch.fortiswitch_system_global:
+        state: "present"
         system_global:
           hostname: "{{ inventory_hostname }}"
 
     - name: Configure DNS
       fortinet.fortiswitch.fortiswitch_system_dns:
+        state: "present"
         system_dns:
           cache_notfound_responses: "enable"
           dns_cache_limit: "5000"
@@ -77,6 +81,7 @@
 
     - name: NTP system info configuration
       fortinet.fortiswitch.fortiswitch_system_ntp:
+        state:  "present"
         system_ntp:
           log_time_adjustments: "enable"
           ntpserver:
