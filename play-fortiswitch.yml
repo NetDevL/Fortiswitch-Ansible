@@ -10,6 +10,21 @@
     ansible_httpapi_port: 443
 
   tasks:
+
+    - name: Configure management.
+      fortinet.fortiswitch.fortiswitch_switch_vlan:
+          state: "present"
+          switch_vlan:
+            id: "2"
+            description: "Management"
+
+    - name: Configure IOT.
+      fortinet.fortiswitch.fortiswitch_switch_vlan:
+          state: "present"
+          switch_vlan:
+            id: "3"
+            description: "IOT"     
+
     - name: Only https allow access to the device.
       fortiswitch_system_interface:
         state: present

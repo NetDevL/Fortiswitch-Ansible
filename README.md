@@ -7,6 +7,7 @@ Currently the following configuration is supported by the playbook:
 - Configuring a SNMPv3 user
 - Configuring SNMP info
 - Configuring NTP
+- Configuring basic VLANs
 
 The following is required to run playbooks from this repo:
 - Ansible
