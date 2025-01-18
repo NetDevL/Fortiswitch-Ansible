@@ -2,12 +2,13 @@
 Contains playbooks for configuring stand-alone Fortiswitches. 
 
 Currently the following configuration is supported by the playbook:
-- Settings system DNS
-- Configuring a system interface
-- Configuring a SNMPv3 user
-- Configuring SNMP info
-- Configuring NTP
-- Configuring basic VLANs
+- System DNS
+- System interfaces / VTIs
+- SNMPv3 users
+- SNMP info
+- NTP
+- Basic VLANs
+- Static routes
 
 The following is required to run playbooks from this repo:
 - Ansible

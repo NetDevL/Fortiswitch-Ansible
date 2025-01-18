@@ -43,6 +43,18 @@
           alias: "Management"
           defaultgw: "enable"
 
+    - name: IPv4 static route for Internet access.
+      fortinet.fortiswitch.fortiswitch_router_static:
+          state: "present"
+          router_static:
+              comment: "Management gateway"
+              device: "vlan-2"
+              gateway: " {{ dns_secondary }}"
+              dst: "0.0.0.0/0"
+              gw_l2_switch: "enable"
+              seq_num: "1"
+              status: "enable"
+
     - name: SNMP system info configuration.
       fortinet.fortiswitch.fortiswitch_system_snmp_sysinfo:
         system_snmp_sysinfo:
