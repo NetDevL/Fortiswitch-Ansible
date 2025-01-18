@@ -1,0 +1,51 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: [ "prod" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch: 
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  pre-requisites:
+    # The type of runner that the job will run on
+    runs-on: self-hosted
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Install pipx
+        run: apt install pipx -y
+      
+      - name: Install ansible
+        run: apt install ansible -y
+
+      - name: Install ansible galaxy fortinet fortiswitch
+        run: ansible-galaxy collection install fortinet.fortiswitch
+
+        # For now OTA is unavailable
+#  deploy-ota:
+#          # The type of runner that the job will run on
+#    runs-on: self-hosted
+#    needs: pre-requisites
+#    steps:
+      #      - name: Run FortiManager playbook
+      #        run: ansible-playbook -i vars/hosts play-fortimanager.yml
+#      - name: Run Fortiswitch playbook
+#        run: ansible-playbook -i vars/hosts-ota play-fortiswitch.yml
+
+  deploy-prod:
+    runs-on: self-hosted
+    needs: pre-requisites
+
+    steps:
+      - name: Run Fortiswitch playbook
+        run: ansible-playbook -i /home/pi/vars/ftnt_lab/hosts-prod play-fortiswitch.yml

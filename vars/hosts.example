@@ -1,0 +1,13 @@
+[fortiswitches]
+<host> ansible_host=<ip> ansible_user="user" ansible_password="pass" snmp_auth_password="pass" snmp_user="user" snmp_host="snmp_server" snmp_priv_password="priv"
+
+[fortiswitches:vars]
+ansible_network_os=fortinet.fortiswitch.fortiswitch
+
+snmp_host=""
+snmp_contact=""
+
+dns_primary=""
+dns_secondary=""
+domain=""
+location=""

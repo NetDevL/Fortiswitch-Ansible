@@ -1,0 +1,75 @@
+---
+- hosts: fortiswitches
+  connection: httpapi
+  collections:
+    - fortinet.fortiswitch
+  gather_facts: 'no'
+  vars:
+    ansible_httpapi_use_ssl: yes
+    ansible_httpapi_validate_certs: no
+    ansible_httpapi_port: 443
+
+  tasks:
+    - name: Only https allow access to the device.
+      fortiswitch_system_interface:
+        state: present
+        system_interface:
+          name: internal
+          vdom: root
+          allowaccess:
+            - https
+            - http
+            - ssh
+            - ping
+            - snmp
+
+    - name: SNMP system info configuration.
+      fortinet.fortiswitch.fortiswitch_system_snmp_sysinfo:
+        system_snmp_sysinfo:
+          contact_info: "{{ snmp_contact }}"
+          description: "{{ inventory_hostname }}"
+          location: "{{ location }}"
+          status: "enable"
+
+    - name: Configure global range attributes.
+      fortinet.fortiswitch.fortiswitch_system_global:
+        system_global:
+          hostname: "{{ inventory_hostname }}"
+
+    - name: Configure DNS
+      fortinet.fortiswitch.fortiswitch_system_dns:
+        system_dns:
+          cache_notfound_responses: "enable"
+          dns_cache_limit: "5000"
+          dns_cache_ttl: "1800"
+          domain: "{{ domain }}"
+          primary: "{{ dns_primary }}"
+          secondary: "{{ dns_secondary }}"
+
+    - name: Ntp system info configuration
+      fortinet.fortiswitch.fortiswitch_system_ntp:
+        system_ntp:
+          log_time_adjustments: "enable"
+          ntpserver:
+            - id: "1"
+              server: "time.cloudflare.com"
+            - id: "2"
+              server: "time.google.com"
+          ntpsync: "enable"
+          server_mode: "enable"
+          source_ip: "{{ ansible_host }}"
+          syncinterval: "20"
+
+    - name: SNMP user configuration.
+      fortinet.fortiswitch.fortiswitch_system_snmp_user:
+          state: "present"
+          system_snmp_user:
+              auth_proto: "sha256"
+              auth_pwd: "{{ snmp_auth_password }}"
+              name: "{{ snmp_user }}"
+              notify_hosts: " {{ snmp_host }}"
+              priv_proto: "aes256"
+              priv_pwd: "{{ snmp_auth_password }}"
+              queries: "enable"
+              query_port: "161"
+              security_level: "auth-priv"
